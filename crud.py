@@ -63,9 +63,26 @@ def building_upload():
         db.session.commit()
 
 
-country_upload()
-city_upload()
-building_upload()
-Country.__repr__(Country)
-Building.__repr__(Building)
+# country_upload()
+# city_upload()
+# building_upload()
+# Country.__repr__(Country)
+# Building.__repr__(Building)
+with app.app_context():
+    query = (
+    db.session.query(
+        Building.title.label("Здание"),
+        TypeBuilding.type.label("Тип"),
+        Country.name.label("Страна"),
+        City.name.label("Город"),
+        Building.year.label("Год"),
+        Building.height.label("Высота")
+      )
+    .select_from(Building)
+    .join(TypeBuilding)
+    .join(City)
+    .join(Country)
+)
+    db.select_from(Building)
+    print(query.all())
 

@@ -1,5 +1,6 @@
 from config import db
-import config as cf
+from app import app
+
 
 def get_all_buildings():
     query = (
@@ -93,6 +94,7 @@ class Building(db.Model):
                        format(item.id, item.title, item.type_building_id, item.city_id, item.year, item.height))
                 return row
 
-cf.app.app_context().push()
-with cf.app.app_context():
+app.app_context().push()
+
+with app.app_context():
     db.create_all()

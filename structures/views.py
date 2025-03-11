@@ -1,9 +1,6 @@
 from flask import Blueprint, render_template
-from structures.models import get_all_buildings
 from app import app
-views = Blueprint('views', __name__)
-
-@views.route('/')
+from structures.models import get_all_buildings
 @app.route('/')
 def index():
 

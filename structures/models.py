@@ -1,12 +1,10 @@
-from config import db
-from app import app
-
+from app import db
 
 def get_all_buildings():
     query = (
         db.session.query(
             Building.title.label("Здание"),
-            TypeBuilding.name.label("Тип"),
+            TypeBuilding.type.label("Тип"),
             Country.name.label("Страна"),
             City.name.label("Город"),
             Building.year.label("Год"),
@@ -19,56 +17,52 @@ def get_all_buildings():
     )
     return [query.statement.columns.keys(), query.all()]
 
+
 class Country(db.Model):
     __tablename__ = 'Country'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    cities = db.relationship("City", back_populates="country", cascade='all, delete')
+
+    cities = db.relationship("City", back_populates="country")
 
     def __init__(self, name):
         self.name = name
 
-    def __repr__(self):
-        query = Country.query.all()
-        for item in query:
-            row = "id: {}, name: {}".format(item.id, item.name)
-            return row
 
 class TypeBuilding(db.Model):
     __tablename__ = 'TypeBuilding'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
+    id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(50), nullable=False)
-    buildings = db.relationship("Building", back_populates="type_building", cascade='all, delete')
+
+    buildings = db.relationship("Building", cascade='all, delete')
 
     def __init__(self, type):
         self.type = type
 
     def __repr__(self):
-        query = TypeBuilding.query.all()
-        for item in query:
-            row = "id: {}, type: {}".format(item.id, item.type)
-            return row
+        return f"\n{self.id}. {self.type}"
+
 
 class City(db.Model):
     __tablename__ = 'City'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(100), nullable=False)
-    country_id = db.Column(db.Integer, db.ForeignKey('Country.id'))
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    country_id = db.Column(db.Integer, db.ForeignKey("Country.id"))
+
     country = db.relationship("Country", back_populates="cities")
-    buildings = db.relationship("Building", back_populates="city", cascade='all, delete')
+    buildings = db.relationship("Building", cascade='all, delete')
 
     def __init__(self, name, country_id):
         self.name = name
         self.country_id = country_id
 
-    def __repr__(self):
-        query = City.query.all()
-        for item in query:
-            row = "id: {}, name: {}, type: {}".format(item.id, item.name, item.country_id)
-            return row
 
 class Building(db.Model):
     __tablename__ = 'Building'
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200))
     type_building_id = db.Column(db.Integer, db.ForeignKey('TypeBuilding.id'))
@@ -85,16 +79,9 @@ class Building(db.Model):
         self.city_id = city_id
         self.year = year
         self.height = height
-    def __repr__(self):
-        query = Building.query.all()
-        for item in query:
-            query = Building.query.all()
-            for item in query:
-                row = ("id: {}, title: {}, type_building_id: {}, city_id: {}, year: {}, height: {}".
-                       format(item.id, item.title, item.type_building_id, item.city_id, item.year, item.height))
-                return row
 
-app.app_context().push()
 
-with app.app_context():
-    db.create_all()
+# db.app_context().push()
+#
+# with db.app_context():
+#     db.create_all()

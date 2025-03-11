@@ -1,5 +1,4 @@
 import csv
-
 from config import db
 from structures.models import Country, City, Building
 

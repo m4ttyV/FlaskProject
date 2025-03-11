@@ -1,7 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
-from app import app
+import os
 
-db = SQLAlchemy()
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///structure.db"
-
-db.init_app(app)
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(BASE_DIR, 'structure.db')}"
+SQLALCHEMY_TRACK_MODIFICATIONS = False

@@ -1,8 +1,22 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
-app = Flask(__name__)
+db = SQLAlchemy()  # Создаем объект db без привязки к app
 
-if __name__ == 'main':
-  app.run(debug=True)
+def create_app():
+    app = Flask(__name__)
+    app.config.from_pyfile("config.py")
 
-from structures.views import index
+    db.init_app(app)  # Привязываем db к app
+
+    from structures.views import views  # Импортируем Blueprint
+    app.register_blueprint(views)
+
+    with app.app_context():  # Создаем контекст перед db.create_all()
+        db.create_all()
+
+    return app
+
+app = create_app()
+migrate = Migrate(app, db)

@@ -1,5 +1,5 @@
 from sqlalchemy import func, desc
-from config import db
+from app import db
 from structures.models import Building, City, Country, TypeBuilding
 
 def get_building_info():

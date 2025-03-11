@@ -2,6 +2,18 @@
 <project version="4">
   <component name="dataSourceStorageLocal" created-in="PY-243.22562.220">
     <data-source name="structure" uuid="981deebe-172c-4e5c-8657-685d6c574b53">
+      <database-info product="SQLite" version="3.45.1" jdbc-version="4.2" driver-name="SQLite JDBC" driver-version="3.45.1.0" dbms="SQLITE" exact-version="3.45.1" exact-driver-version="3.45">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
+      <auth-provider>no-auth</auth-provider>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema" qname="@" />
+        </introspection-scope>
+      </schema-mapping>
+    </data-source>
+    <data-source name="structure — копия" uuid="50d91f7d-198b-4749-bbc6-3f174ce638c3">
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" />
       <auth-provider>no-auth</auth-provider>
       <schema-mapping />

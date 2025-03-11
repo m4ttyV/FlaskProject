@@ -1,38 +1,39 @@
 import csv
-from config import db
+from app import db, app
 from structures.models import TypeBuilding
 from structures.models import Country, City, Building
 
 
 
 def completed():
-    item = TypeBuilding('Небоскрёб')
-    db.session.add(item)
-    item = TypeBuilding('Антенная мачта')
-    db.session.add(item)
-    item = TypeBuilding('Радиомачта')
-    db.session.add(item)
-    item = TypeBuilding('Гиперболоидная башня')
-    db.session.add(item)
-    item = TypeBuilding('Дымовая труба')
-    db.session.add(item)
-    item = TypeBuilding('Решётчатая мачта')
-    db.session.add(item)
-    item = TypeBuilding('Башня')
-    db.session.add(item)
-    item = TypeBuilding('Мост')
-    db.session.add(item)
-    db.session.commit()
-    ##############################################################################
-    query = TypeBuilding.query.filter(TypeBuilding.type.ilike('%е%'), TypeBuilding.id > 3).all()
-    for item in query:
-        print(item.type)
-    ##############################################################################
-    country_upload()
-    city_upload()
-    building_upload()
-    Country.__repr__(Country)
-    Building.__repr__(Building)
+    with app.app_context():
+        item = TypeBuilding('Небоскрёб')
+        db.session.add(item)
+        item = TypeBuilding('Антенная мачта')
+        db.session.add(item)
+        item = TypeBuilding('Радиомачта')
+        db.session.add(item)
+        item = TypeBuilding('Гиперболоидная башня')
+        db.session.add(item)
+        item = TypeBuilding('Дымовая труба')
+        db.session.add(item)
+        item = TypeBuilding('Решётчатая мачта')
+        db.session.add(item)
+        item = TypeBuilding('Башня')
+        db.session.add(item)
+        item = TypeBuilding('Мост')
+        db.session.add(item)
+        db.session.commit()
+        ##############################################################################
+        query = TypeBuilding.query.filter(TypeBuilding.type.ilike('%е%'), TypeBuilding.id > 3).all()
+        for item in query:
+            print(item.type)
+        ##############################################################################
+        country_upload()
+        city_upload()
+        building_upload()
+        Country.__repr__(Country)
+        Building.__repr__(Building)
 
 def country_upload():
     with open("./data/country.csv") as f:
@@ -61,5 +62,10 @@ def building_upload():
             db.session.add(new_building)
         db.session.commit()
 
-completed()
+
+country_upload()
+city_upload()
+building_upload()
+Country.__repr__(Country)
+Building.__repr__(Building)
 
